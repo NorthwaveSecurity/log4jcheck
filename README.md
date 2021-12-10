@@ -56,6 +56,10 @@ The last line of the output shows if the system was found to be vulnerable:
 INFO:root:NOT VULNERABLE! No incoming DNS request to 3414db71-309a-4288-83d4-aa3f103db97c.log4jdns.northwave.nl was seen
 ```
 
+## License
+
+Wikiraider is open-sourced software licensed under the [MIT license](https://github.com/NorthwaveNL/wikiraider/blob/develop/LICENSE.md).
+
 [1]: https://github.com/tangxiaofeng7/apache-log4j-poc
 [2]: https://logging.apache.org/log4j/2.x/
 [3]: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-44228,==
