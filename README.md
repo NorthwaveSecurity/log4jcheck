@@ -1,11 +1,11 @@
 # Northwave Log4j CVE-2021-44228 checker
 
-Friday 10 December 2021 a new Proof-of-Concept [1] addressing a Remote code Execution (RCE) vulnerability in the Java library 'log4j' [2] was published. This vulnerability has not been disclosed to the developers of the software upfront. The vulnerability is being tracked as CVE-2021-44228 [3]. More information on the vulnerability can be found in the Northwave Threat response [4]
+Friday 10 December 2021 a new Proof-of-Concept [1] addressing a Remote code Execution (RCE) vulnerability in the Java library 'log4j' [2] was published. This vulnerability has not been disclosed to the developers of the software upfront. The vulnerability is being tracked as CVE-2021-44228 [3]. More information on the vulnerability can be found in the Northwave Threat Response [4].
 
 Northwave created a testing script that checks for vulnerable systems using injection of the payload in the User-Agent header and as a part of a HTTP GET request. Vulnerable systems are detected by listening for incoming DNS requests that contain a UUID specically created for the target. By listening for incoming DNS instead of deploying (for example) an LDAP server, we increase the likelyhood that vulnerable systems can be detected that have outbound traffic filtering in place. In practice, outbound DNS is often allowed. 
 
 ## DISCLAIMER
-Note that the script only performs 2 specific checks:User Agent and HTTP GET request. This will cause false negatives in cases where other headers, specific input fields, etc. need to be targeted to trigger the vulnerability. Feel free to add extra checks to the script.
+Note that the script only performs two specific checks: *User Agent* and *HTTP GET request*. This will cause false negatives in cases where other headers, specific input fields, etcetera need to be targeted to trigger the vulnerability. Feel free to add extra checks to the script.
 
 ## Setting up a DNS server
 
