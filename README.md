@@ -27,14 +27,14 @@ This disables recusing as we do not want to run an open DNS server. Configure lo
 ```
 logging {
 	channel querylog {
-		file "log4jdnsreq";
+		file "/var/log/named/query.log";
 		severity debug 3;
 		print-time yes;
 	};
 	category queries { querylog;};
 };
 ```
-Don't forget to restart BIND using `systemctl restart bind9`. Check if the logging works by performing a DNS query for `xyz.log4jdnsreq.northwave.nl`. One or more queries should show up in 
+Don't forget to restart BIND using `systemctl restart bind9`. Check if the logging works by performing a DNS query for `xyz.log4jdnsreq.northwave.nl`. One or more queries should show up in `/var/log/named/query.log`.
 
 ## Running the script
 
