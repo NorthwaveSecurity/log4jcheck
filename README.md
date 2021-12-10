@@ -58,7 +58,7 @@ INFO:root:NOT VULNERABLE! No incoming DNS request to 3414db71-309a-4288-83d4-aa3
 
 ## License
 
-Wikiraider is open-sourced software licensed under the [MIT license](https://github.com/NorthwaveNL/wikiraider/blob/develop/LICENSE.md).
+Log4jcheck is open-sourced software licensed under the MIT license.
 
 [1]: https://github.com/tangxiaofeng7/apache-log4j-poc
 [2]: https://logging.apache.org/log4j/2.x/
