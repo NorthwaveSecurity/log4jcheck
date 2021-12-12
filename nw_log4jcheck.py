@@ -51,9 +51,9 @@ def main():
     logging.info(f"Checking DNS log file for requests (indicating a vulnerable system)...")
     with open('/var/log/named/query.log') as f:
         if f"{identifier}" in f.read():
-            logging.info(f"VULNERABLE! System is potentially vulnerable as we have seen an incoming DNS request to {identifier}.{HOSTNAME}")
+            logging.info(f"VULNERABLE! System at {url_input} is potentially vulnerable as we have seen an incoming DNS request to {identifier}.{HOSTNAME}")
         else:
-            logging.info(f"NOT VULNERABLE! No incoming DNS request to {identifier}.{HOSTNAME} was seen")
+            logging.info(f"NOT VULNERABLE! No incoming DNS request to {identifier}.{HOSTNAME} was seen while checking system at {url_input}")
 
 if __name__ == "__main__":
     main()
