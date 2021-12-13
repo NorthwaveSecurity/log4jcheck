@@ -59,6 +59,9 @@ def main():
                 )
             except requests.exceptions.ConnectionError as e:
                 logging.error(f"HTTP connection to target URL error: {e}")
+            except requests.exceptions.Timeout:
+                logging.error("HTTP request timeout")
+
 
     # Check 2 (Get request)
     logging.info(f"Sending requests to {url_input} using GET request injection")
@@ -72,6 +75,8 @@ def main():
             )
         except requests.exceptions.ConnectionError as e:
             logging.error(f"HTTP connection to target URL error: {e}")
+        except requests.exceptions.Timeout:
+            logging.error("HTTP request timeout")
 
     logging.info(f"Waiting 10 seconds for a response")
     time.sleep(10)
