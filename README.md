@@ -42,7 +42,7 @@ We now set up a BIND DNS server on a Debian system using `apt install bind9` and
 
 ```
 	recursion no;
-    allow-transfer { none; };
+	allow-transfer { none; };
 ```
 
 This disables recusing as we do not want to run an open DNS server. Configure logging in `/etc/bind/named.conf.local` by adding the following configuration:
@@ -70,8 +70,6 @@ HOSTNAME = "log4jdnsreq.northwave.nl"
 You can now run the script by providing a single URL using the `-u` parameter or a list of urls using the `-l` parameter:
 
 ```
-usage: nw_log4jcheck.py [-h] [-l LIST] [-u URL]
-
 usage: nw_log4jcheck.py [-h] [-l LIST] [-u URL] [-w WAIT] [-t TIMEOUT]
 
 optional arguments:
