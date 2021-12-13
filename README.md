@@ -67,10 +67,20 @@ Install any Python dependencies using `pip install -r requirements.txt`. Edit th
 HOSTNAME = "log4jdnsreq.northwave.nl"
 ```
 
-You can now run the script using the following syntax:
+You can now run the script by providing a single URL using the `-u` parameter or a list of urls using the `-l` parameter:
 
 ```
-python3 nw_log4jcheck.py https://www.northwave.nl
+usage: nw_log4jcheck.py [-h] [-l LIST] [-u URL]
+
+usage: nw_log4jcheck.py [-h] [-l LIST] [-u URL] [-w WAIT] [-t TIMEOUT]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -l LIST, --list LIST  A text file with a list of URLs to check (one url per line)
+  -u URL, --url URL     URL to check (for example: http://yoururl.com)
+  -w WAIT, --wait WAIT  Number of seconds to wait before checking DNS logs (default: 15)
+  -t TIMEOUT, --timeout TIMEOUT
+                        HTTP timeout in seconds to use (default: 5)
 ```
 
 The last line of the output shows if the system was found to be vulnerable:
