@@ -38,6 +38,8 @@ First, we need a subdomain that we can use to receive incoming DNS requests. In 
 log4jdnsreq 3600 IN  NS log4jchecker.northwave.nl.
 ```
 
+[Note that installing a server is not stricly necessary, see "Without a DNS server".]
+
 We now set up a BIND DNS server on a Debian system using `apt install bind9` and add the following to the `/etc/bind/named.conf.options` file:
 
 ```
@@ -58,6 +60,16 @@ logging {
 };
 ```
 Don't forget to restart BIND using `systemctl restart bind9`. Check if the logging works by performing a DNS query for `xyz.log4jdnsreq.northwave.nl`. One or more queries should show up in `/var/log/named/query.log`.
+
+### Without a DNS server
+
+You can also do without a DNS server. Just run `tcpdump` on the machine where the domain name is delegated. An example on the machine of IP address `2001:db8::beef`:
+
+```
+tcpdump -n dst host 2001:db8::beef and dst port 53
+```
+
+`tcpdump` will display the DNS requests received.
 
 ## Running the script
 
