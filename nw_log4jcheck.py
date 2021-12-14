@@ -9,7 +9,7 @@ import argparse
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 logging.basicConfig(level=logging.INFO)
 
-# Change this to your DNS zone
+# Change this to your DNS zone 
 HOSTNAME = "yourdns.zone.here"
 
 header_injects = [
@@ -48,8 +48,6 @@ def send_request(url, headers={}, timeout=5):
         logging.error(f"HTTP connection to target URL error: {e}")
     except requests.exceptions.Timeout:
         logging.error("HTTP request timeout")
-    except (requests.exceptions.InvalidURL, urllib3.exceptions.LocationParseError) as e:
-        logging.error(f"Failed to parse URL: {e}")
 
 def check_urls(urls, wait, timeout):
     url_identifiers=dict()
