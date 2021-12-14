@@ -81,7 +81,7 @@ def check_urls(urls, wait, timeout):
             if f"{url_identifiers[url]}" in f.read():
                 logging.info(f"VULNERABLE! System at {url} is potentially vulnerable as we have seen an incoming DNS request to {url_identifiers[url]}.{HOSTNAME}")
             else:
-                logging.info(f"NOT VULNERABLE! No incoming DNS request to {url_identifiers[url]}.{HOSTNAME} was seen while checking system at {url}")
+                logging.info(f"NO VULNERABILITY DETECTED! No incoming DNS request to {url_identifiers[url]}.{HOSTNAME} was seen while checking system at {url}")
 
 def main():
     parser = argparse.ArgumentParser()
