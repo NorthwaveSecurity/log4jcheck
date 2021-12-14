@@ -2,7 +2,7 @@
 
 Friday 10 December 2021 a new Proof-of-Concept [1] addressing a Remote code Execution (RCE) vulnerability in the Java library 'log4j' [2] was published. This vulnerability has not been disclosed to the developers of the software upfront. The vulnerability is being tracked as CVE-2021-44228 [3]. More information on the vulnerability can be found in the Northwave Threat Response [4].
 
-Northwave created a testing script that checks for vulnerable systems using injection of the payload in common HTTP headers and as a part of a HTTP GET request. Vulnerable systems are detected by listening for incoming DNS requests that contain a UUID specically created for the target. By listening for incoming DNS instead of deploying (for example) an LDAP server, we increase the likelyhood that vulnerable systems can be detected that have outbound traffic filtering in place. In practice, outbound DNS is often allowed. 
+Northwave created a testing script that checks for vulnerable systems using injection of the payload in common HTTP headers and as a part of a HTTP GET request. Vulnerable systems are detected by listening for incoming DNS requests that contain a UUID specically created for the target. By listening for incoming DNS instead of deploying (for example) an LDAP server, we increase the likelyhood that vulnerable systems can be detected that have outbound traffic filtering in place. In practice, outbound DNS is often allowed.
 
 ## Coverage:
 
@@ -58,6 +58,24 @@ logging {
 };
 ```
 Don't forget to restart BIND using `systemctl restart bind9`. Check if the logging works by performing a DNS query for `xyz.log4jdnsreq.northwave.nl`. One or more queries should show up in `/var/log/named/query.log`.
+
+## Verifying your DNS server
+
+It's important to verify that nameserver lookups are actually logged. **This script cannot detect vulnerable sites unless your nameserver setup logs requests**
+
+Test your server by performing a test lookup (idealy from a different machine):
+
+```
+dig test.log4jchecker.northwave.nl
+```
+
+You should not expect a response, but you should expect an entry in the log file (`cat /var/log/named/query.log`). This entry might look similar to:
+
+```
+14-Dec-2021 13:36:01.402 client @0x7f8b180a9b30 requester-ip#58755 (test.log4jchecker.northwave.nl): query: test.log4jchecker.northwave.nl IN A -E(0)DC (your-ip)
+```
+
+Don't continue unless a response is visible in the logs. The script won't detect vulnerabilities without.
 
 ## Running the script
 
