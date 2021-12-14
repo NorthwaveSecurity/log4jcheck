@@ -44,7 +44,7 @@ def send_request(url, headers={}, timeout=5):
             verify=False,
             timeout=timeout
         )
-    except requests.exceptions.ConnectionError as e:
+    except (requests.exceptions.ConnectionError, requests.exceptions.TooManyRedirects) as e:
         logging.error(f"HTTP connection to target URL error: {e}")
     except requests.exceptions.Timeout:
         logging.error("HTTP request timeout")
